@@ -375,12 +375,12 @@ class _AddNoteState extends State<AddNote> {
       isLoadingSave = true;
     });
     if (StaticData.mode == "add") {
-      doSaveData();
+      doSaveData(false);
       Navigator.pushReplacementNamed(context, "/home");
     }
 
     if (StaticData.mode == "edit" || StaticData.mode == "edit-inside") {
-      doSaveData();
+      doSaveData(true);
       if(StaticData.mode == "edit"){
         Navigator.pushReplacementNamed(context, "/home");
       }
@@ -395,7 +395,7 @@ class _AddNoteState extends State<AddNote> {
     });
   }
 
-  void doSaveData(){
+  void doSaveData(bool isEdit){
     final json = _controller.document.toDelta().toJson();
     String title = json[0]["insert"];
     String description = "";
@@ -408,7 +408,11 @@ class _AddNoteState extends State<AddNote> {
     }
     String docs = jsonEncode(json);
     Note note = Note(title, description, docs);
-    notes[StaticData.selectedIndex] = note;
+    if(isEdit){
+      notes[StaticData.selectedIndex] = note;
+    }else{
+      notes.add(note);
+    }
     var pattern = {"notes": notes};
     jsonFile.writeAsStringSync(jsonEncode(pattern));
   }
