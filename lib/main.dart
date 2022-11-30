@@ -17,7 +17,7 @@ var routes = {
 
 const colors = [
   Colors.blue,
-  Colors.greenAccent,
+  Colors.lightGreen,
   Colors.lightBlueAccent,
   Colors.amber,
 ];
